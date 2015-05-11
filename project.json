@@ -1,0 +1,28 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : false,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d", "extensions"],
+
+    "jsList" : [
+        "src/resource.js",
+        "src/app.js",
+        "src/layers/MapLayer.js",
+        "src/layers/GameLayer.js",
+        "src/layers/MenuLayer.js",
+        "src/scenes/GameScene.js",
+        "src/scenes/MenuScene.js",
+        "src/config/GameConfig.js",
+        "src/nodes/BlockNode.js",
+        "src/nodes/ControllerNode.js",
+        "src/scenes/GameOverScene.js",
+        "src/layers/GameOverLayer.js",
+        "src/services/MapDataService.js"
+    ]
+}
