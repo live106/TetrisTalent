@@ -4,9 +4,11 @@
 var MapDataService  = cc.Class.extend({
     currentBlockInfo:null,
     nextBlockInfo:null,
+    score:0,
     ctor:function() {
         this.currentBlockInfo = {};
         this.nextBlockInfo = {};
+        return true;
     },
 
     generateBlock:function() {
@@ -29,5 +31,16 @@ var MapDataService  = cc.Class.extend({
 
     getNextBlockInfo:function() {
         return this.nextBlockInfo;
+    },
+
+    addScore:function(scoreAdd) {
+        this.score += scoreAdd;
+        if (this.score < 0) {
+            this.score = 0;
+        }
+    },
+
+    getScore:function() {
+        return this.score;
     }
 });

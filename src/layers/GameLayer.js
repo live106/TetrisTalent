@@ -1,4 +1,4 @@
-var GameLayer = cc.Layer.extend({
+var GameLayer = MapLayerDelegate.extend({
 	curMap:null,
 	moveStop:true,
 	touchLeftTime:-1.0,
@@ -8,12 +8,13 @@ var GameLayer = cc.Layer.extend({
 	downTicker:0.0,
 	gameOver:false,
 	nextBlock:null,
+	scoreLabel:null,
 	ctor:function() {
 		this._super();
 
 		var size = cc.winSize;
 
-		this.curMap = new MapLayer();
+		this.curMap = new MapLayer(this);
 		this.curMap.attr({
 			x : (size.width - DTBlockSize * DT_MAP_SIZE.width) / 2,
 			y : size.height - DTBlockSize * DT_MAP_SIZE.height
@@ -70,6 +71,25 @@ var GameLayer = cc.Layer.extend({
         		target.resetTouchTime();
 	        }
         }, this);
+
+		//score label
+		var size = cc.winSize;
+		this.scoreLabel = new cc.LabelTTF("score\n0", "Arial", 24);
+		this.scoreLabel.setHorizontalAlignment(cc.TEXT_ALIGNMENT_CENTER);
+		this.scoreLabel.attr({
+			x : 40,
+			y : size.height - 200,
+			anchorX : 0.5,
+			anchorY : 0.5
+		});
+		this.scoreLabel.setDimensions(60, 0);
+		this.addChild(this.scoreLabel);
+	},
+
+	onScoreChange:function() {
+		cc.log("GameLayer.onScoreChange()");
+
+		this.scoreLabel.setString("score\n" + this.curMap.mapDataService.getScore());
 	},
 
 	dropBlock:function() {
@@ -88,8 +108,8 @@ var GameLayer = cc.Layer.extend({
 		}
 
 		this.nextBlock.attr({
-			x : -this.curMap.getLeftX(this.nextBlock.curData),
-			y : size.height - 100 + this.curMap.getBottomY(this.nextBlock.curData),
+			x : 40 - 0.38 * this.nextBlock.curData[0].length * DTBlockSize / 2,
+			y : size.height - 100 - 0.38 * this.curMap.getBottomY(this.nextBlock.curData),
 			scale : 0.38
 		});
 	},

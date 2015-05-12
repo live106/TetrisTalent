@@ -7,9 +7,11 @@ var MapLayer = cc.Layer.extend({
     curBlock: null,
     mapNode: null,
     mapDataService: null,
-    ctor: function () {
+    delegate:null,
+    ctor: function (pDelegate) {
         this._super();
 
+        this.delegate = pDelegate;
         this.mapDataService = new MapDataService();
 
         this.mapData = new Array();
@@ -172,7 +174,7 @@ var MapLayer = cc.Layer.extend({
     },
 
     getLeftX:function(blkData) {
-        var blkLeftPosX = blkData.length - 1;
+        var blkLeftPosX = blkData[0].length - 1;
         for (var i = blkData.length - 1; i >= 0; i--) {
             for (var j = 0; j < blkData[i].length; j++) {
                 if (blkData[i][j] > 0 && j < blkLeftPosX) {
@@ -194,7 +196,7 @@ var MapLayer = cc.Layer.extend({
                     blkRightPosX = j;
                 }
             }
-            if (blkRightPosX == blkData.length - 1) {
+            if (blkRightPosX == blkData[0].length - 1) {
                 break;
             }
         }
@@ -261,19 +263,28 @@ var MapLayer = cc.Layer.extend({
         }
     },
 
-    doClearLines: function (indexes) {
+    doClearLines: function (clearIndexes) {
         //TODO sort indexes desc
-        for (var i = indexes.length - 1; i >= 0; i--) {
-            cc.log("clear line : %d", indexes[i]);
-            for (var line = indexes[i]; line < this.mapData.length - 1; line++) {
+        for (var i = clearIndexes.length - 1; i >= 0; i--) {
+            cc.log("clear line : %d", clearIndexes[i]);
+            for (var line = clearIndexes[i]; line < this.mapData.length - 1; line++) {
                 this.mapData[line] = this.mapData[line + 1].concat();
             }
         }
+        //add score
+        this.mapDataService.addScore(clearIndexes.length);
+        if (this.delegate) {
+            this.delegate.onScoreChange();
+        }
+
         this.drawTowDimensionArray("doClearLines map data after", this.mapData, 1);
     },
 
     //0 desc 1 aesc
     drawTowDimensionArray: function (description, arrayData, direction) {
+        if (!DT_DEBUG) {
+            return;
+        }
         var desc = "";
         if (direction == 0) {
             for (var i = 0; i < arrayData.length; i++) {
