@@ -8,11 +8,12 @@
     "renderMode" : 0,
     "engineDir":"frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d", "extensions"],
+    "modules" : ["cocos2d", "gui", "ccpool"],
 
     "jsList" : [
         "src/resource.js",
         "src/app.js",
+        "src/delegates/MapLayerDelegate.js",
         "src/layers/MapLayer.js",
         "src/layers/GameLayer.js",
         "src/layers/MenuLayer.js",
