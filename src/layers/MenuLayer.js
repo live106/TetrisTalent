@@ -4,7 +4,7 @@ var MenuLayer = cc.Layer.extend({
 
 		var size = cc.winSize;
 
-		var startItem = new cc.MenuItemLabel(new cc.LabelTTF("开始游戏", "Arial", 38), this.startGame, this);
+		var startItem = new cc.MenuItemLabel(new cc.LabelTTF("开始游戏", "Arial", 50), this.startGame, this);
 
 		var menu = new cc.Menu(startItem);
 		menu.attr({
