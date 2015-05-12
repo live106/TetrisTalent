@@ -4,10 +4,12 @@ var ControllerNode = cc.Node.extend({
 
         var bgScale = 1;
 
-        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(0, 80), 0, target, target.upButtonTouchDown, true);
-        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(80, 0), 90, target, target.rightButtonTouchDown, true);
-        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(0, -80), 180, target, target.downButtonTouchDown, false);
-        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(-80, 0), 270, target, target.leftButtonTouchDown, true);
+        //var item = cc.MenuItemImage(res.button_normal_png, res.button_selected_png, res.button_normal_png, target.upButtonTouchUpInside, target);
+
+        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(0, 80), 0, target, target.upButtonTouchUpInside, target.upButtonTouchDown, true);
+        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(80, 0), 90, target, target.rightButtonTouchUpInside, target.rightButtonTouchDown, true);
+        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(0, -80), 180, target, target.downButtonTouchUpInside, target.downButtonTouchDown, false);
+        this.createButton(res.button_normal_png, res.button_selected_png, bgScale, cc.p(-80, 0), 270, target, target.leftButtonTouchUpInside, target.leftButtonTouchDown,true);
 
         // controlButton.addTargetWithActionForControlEvents(this, this.touchDownAction, cc.CONTROL_EVENT_TOUCH_DOWN);
         // controlButton.addTargetWithActionForControlEvents(this, this.touchDragInsideAction, cc.CONTROL_EVENT_TOUCH_DRAG_INSIDE);
@@ -22,7 +24,13 @@ var ControllerNode = cc.Node.extend({
         return true;
     },
 
-    createButton: function (normalScale9SpriteFile, highlightedScale9SpriteFile, bgScale, pos, rotate, target, touchdownCallback, registerUpCallback) {
+    //createMenuItem:function(normalImage, selectedImage, disableImage, callback, target, pos, rotation) {
+    //    var item = cc.MenuItemImage(normalImage, selectedImage, disableImage, callback, target);
+    //    item.setPosition(pos);
+    //    item.setRotation(rotation);
+    //},
+
+    createButton: function (normalScale9SpriteFile, highlightedScale9SpriteFile, bgScale, pos, rotate, target, touchUpInsideCallback, touchdownCallback, registerUpCallback) {
         var backgroundButton = new cc.Scale9Sprite(normalScale9SpriteFile);
         backgroundButton.setScale(bgScale);
         var backgroundHighlightedButton = new cc.Scale9Sprite(highlightedScale9SpriteFile);
@@ -36,11 +44,12 @@ var ControllerNode = cc.Node.extend({
         button.setRotation(rotate);
         this.addChild(button);
 
+        button.addTargetWithActionForControlEvents(target, touchUpInsideCallback, cc.CONTROL_EVENT_TOUCH_UP_INSIDE);
         button.addTargetWithActionForControlEvents(target, touchdownCallback, cc.CONTROL_EVENT_TOUCH_DOWN);
         if (registerUpCallback) {
-            button.addTargetWithActionForControlEvents(target, target.moveButtonTouchUp, cc.CONTROL_EVENT_TOUCH_CANCEL);
-            button.addTargetWithActionForControlEvents(target, target.moveButtonTouchUp, cc.CONTROL_EVENT_TOUCH_UP_INSIDE);
-            button.addTargetWithActionForControlEvents(target, target.moveButtonTouchUp, cc.CONTROL_EVENT_TOUCH_UP_OUTSIDE);
+            //button.addTargetWithActionForControlEvents(target, target.moveButtonTouchUp, cc.CONTROL_EVENT_TOUCH_CANCEL);
+            //button.addTargetWithActionForControlEvents(target, target.moveButtonTouchUp, cc.CONTROL_EVENT_TOUCH_UP_INSIDE);
+            //button.addTargetWithActionForControlEvents(target, target.moveButtonTouchUp, cc.CONTROL_EVENT_TOUCH_UP_OUTSIDE);
         }
 
         return button;

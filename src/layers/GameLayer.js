@@ -25,7 +25,7 @@ var GameLayer = MapLayerDelegate.extend({
 		var controller = new ControllerNode(this);
 		controller.attr({
 			x : size.width / 2,
-			y : 100
+			y : 170
 		});
 		this.addChild(controller);
 
@@ -45,30 +45,30 @@ var GameLayer = MapLayerDelegate.extend({
 	        	switch (keyCode) {
 	        		case KEYCODE_UP:
 	        		{
-	        			target.upButtonTouchDown();
+	        			target.upButtonTouchUpInside();
 	        			break;
 	        		}
 	        		case KEYCODE_RIGHT:
 	        		{
-	        			target.rightButtonTouchDown();
+	        			target.rightButtonTouchUpInside();
 	        			break;
 	        		}
 	        		case KEYCODE_DOWN:
 	        		{
-	        			target.downButtonTouchDown();
+	        			target.downButtonTouchUpInside();
 	        			break;
 	        		}
 	        		case KEYCODE_LEFT:
 	        		{
-	        			target.leftButtonTouchDown();
+	        			target.leftButtonTouchUpInside();
 	        			break;
 	        		}
 	        	}
         	},
         	onKeyReleased: function(keyCode, event) {
         		// cc.log("Key with keycode " + keyCode + " released");  
-        		var target = event.getCurrentTarget();
-        		target.resetTouchTime();
+        		//var target = event.getCurrentTarget();
+        		//target.resetTouchTime();
 	        }
         }, this);
 
@@ -82,7 +82,7 @@ var GameLayer = MapLayerDelegate.extend({
 			anchorX : 0.5,
 			anchorY : 0.5
 		});
-		this.scoreLabel.setDimensions(60, 0);
+		this.scoreLabel.setDimensions(80, 0);
 		this.addChild(this.scoreLabel);
 	},
 
@@ -114,80 +114,120 @@ var GameLayer = MapLayerDelegate.extend({
 		});
 	},
 
-	upButtonTouchDown:function (sender, controlEvent) {
+	upButtonTouchUpInside:function (sender, controlEvent) {
 		if (this.gameOver) {
 			return;
 		}
 		if (this.curMap.rotateBlock()) {
-			this.touchUpTime = 0;
+			//this.touchUpTime = 0;
+		//} else {
+		//	this.touchUpTime = -1.0;
 		}
     },
 
-    rightButtonTouchDown:function (sender, controlEvent) {
+    rightButtonTouchUpInside:function (sender, controlEvent) {
 		if (this.gameOver) {
 			return;
 		}
-		this.moveRight();
+		this.moveRight(false);
+
+		this.resetTouchTime();
+    },
+
+    leftButtonTouchUpInside:function (sender, controlEvent) {
+		if (this.gameOver) {
+			return;
+		}
+		this.moveLeft(false);
+
+		this.resetTouchTime();
+    },
+
+    downButtonTouchUpInside:function (sender, controlEvent) {
+		if (this.gameOver) {
+			return;
+		}
+
+		this.resetTouchTime();
+    },
+
+	upButtonTouchDown:function(sender, controlEvent) {
+		//this.touchUpTime = 0;
+	},
+
+	rightButtonTouchDown:function(sender, controlEvent) {
 		this.touchRightTime = 0;
-    },
+	},
 
-    leftButtonTouchDown:function (sender, controlEvent) {
-		if (this.gameOver) {
-			return;
-		}
-    	this.moveLeft();
-    	this.touchLeftTime = 0;
-    },
+	leftButtonTouchDown:function(sender, controlEvent) {
+		this.touchLeftTime = 0;
+	},
 
-    downButtonTouchDown:function (sender, controlEvent) {
-		if (this.gameOver) {
-			return;
-		}
-    	this.touchDownTime = 0;
-    },
+	downButtonTouchDown:function(sender, controlEvent) {
+		this.touchDownTime = 0;
+	},
 
     moveButtonTouchUp:function (sender, controlEvent) {
-    	this.resetTouchTime();
+    	//this.resetTouchTime();
     },
 
-    moveRight:function() {
+    moveRight:function(toEnd) {
     	var stop = this.curMap.checkStop(DT_DIRECTION_RIGHT);
 		if (!stop) {
 			this.curMap.curBlock.x += DTBlockSize;
+			if (toEnd) {
+				this.moveRight(toEnd);
+			} else {
+				this.resetTouchTime();
+			}
+		} else {
+			this.resetTouchTime();
+			return;
 		}
     },
 
-    moveLeft:function() {
+    moveLeft:function(toEnd) {
     	var stop = this.curMap.checkStop(DT_DIRECTION_LEFT);
 		if (!stop) {
 			this.curMap.curBlock.x -= DTBlockSize;
+			if (toEnd) {
+				this.moveLeft(toEnd);
+			} else {
+				this.resetTouchTime();
+			}
+		} else {
+			this.resetTouchTime();
+			return;
 		}
     },
 
-    moveDown:function() {
+    moveDown:function(toEnd) {
     	var stop = this.curMap.checkStop(DT_DIRECTION_DOWN);
     	if (!stop) {
     		this.curMap.curBlock.y -= DTBlockSize;
+			if (toEnd) {
+				this.moveDown(toEnd);
+			}
     	} else {
     		this.curMap.updateMapData();
     		if (this.curMap.checkGameOver(DT_DIRECTION_DOWN)) {
-				//FIXME game over
-				cc.log("game over !");
 				this.gameOver = true;
-				this.resetTouchTime();
 				this.unscheduleUpdate();
 				cc.director.runScene(new cc.TransitionFade(1.2, new GameOverScene()));
 				return;
 			} else {
 				this.dropBlock();
 			}
+			this.resetTouchTime();
+
+			return;
     	}
     },
 
     resetTouchTime:function() {
     	this.touchLeftTime = -1.0;
     	this.touchRightTime = -1.0;
-    	this.touchUpTime = -1.0;
+    	//this.touchUpTime = -1.0;
     	this.touchDownTime = -1.0;
     },
 
@@ -196,13 +236,13 @@ var GameLayer = MapLayerDelegate.extend({
 			return;
 		}
 		if (this.touchDownTime >= 0) {
-			this.moveDown();
+			this.moveDown(true);
 			return;
 		} else {
 			this.downTicker += dt;
 			if (this.downTicker >= DTBlockDownSpeed) {
 				this.downTicker = 0.0;
-				this.moveDown();
+				this.moveDown(false);
 			}
 		}
 		
@@ -210,21 +250,21 @@ var GameLayer = MapLayerDelegate.extend({
 			this.touchLeftTime += dt;
 		} else if (this.touchRightTime >= 0) {
 			this.touchRightTime += dt;
-		} else if (this.touchUpTime >= 0) {
-			this.touchUpTime += dt;
-		} else if (this.touchDownTime >= 0) {
-			this.touchDownTime += dt;
+		//} else if (this.touchUpTime >= 0) {
+		//	this.touchUpTime += dt;
+		//} else if (this.touchDownTime >= 0) {
+		//	this.touchDownTime += dt;
 		}
 
 		if (this.touchLeftTime >= KEY_LONG_PRESS_DELAY) {
-			this.moveLeft();
+			this.moveLeft(true);
 		} else if (this.touchRightTime >= KEY_LONG_PRESS_DELAY) {
-			this.moveRight();
-		} else if (this.touchUpTime >= KEY_LONG_PRESS_DELAY + DTBlockRotateSpeed) {
-			this.curMap.rotateBlock();
-			this.touchUpTime = KEY_LONG_PRESS_DELAY;
-		// } else if (this.touchDownTime >= 0) {
-		// 	this.moveDown();
+			this.moveRight(true);
+		//} else if (this.touchUpTime >= KEY_LONG_PRESS_DELAY + DTBlockRotateSpeed) {
+			//	this.curMap.rotateBlock();
+			//	this.touchUpTime = KEY_LONG_PRESS_DELAY;
+			// } else if (this.touchDownTime >= 0) {
+			// 	this.moveDown();
 		}
 	}
 });

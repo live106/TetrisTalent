@@ -51,14 +51,35 @@ cc.game.onStart = function(){
      if(!cc.sys.isNative && document.getElementById("cocosLoading")) //If referenced loading.js, please remove it
          document.body.removeChild(document.getElementById("cocosLoading"));
 
+    var kDesignWidth = 640;
+    var kDesignHeight = 960;
+
     // Pass true to enable retina display, disabled by default to improve performance
     cc.view.enableRetina(false);
     // Adjust viewport meta
     cc.view.adjustViewPort(true);
     // Setup the resolution policy and design resolution size
-    cc.view.setDesignResolutionSize(640, 960, cc.ResolutionPolicy.SHOW_ALL);
+    cc.view.setDesignResolutionSize(kDesignWidth, kDesignHeight, cc.ResolutionPolicy.SHOW_ALL);
     // The game will be resized when browser size change
     cc.view.resizeWithBrowserSize(true);
+
+    //
+    //if (cc.sys.isNative) {
+    //    var frameSize = cc.view.getFrameSize();
+    //    if (frameSize.width / frameSize.height > kDesignWidth / kDesignHeight)
+    //    {
+    //        cc.view.setDesignResolutionSize(kDesignWidth, kDesignHeight, cc.ResolutionPolicy.FIXED_HEIGHT);
+    //    }
+    //    else
+    //    {
+    //        //special for screen size like ipad
+    //        cc.view.setDesignResolutionSize(kDesignWidth, kDesignHeight, cc.ResolutionPolicy.SHOW_ALL);
+    //    }
+    //} else {
+    //    cc.view.setDesignResolutionSize(kDesignWidth, kDesignHeight, cc.ResolutionPolicy.SHOW_ALL);
+    //}
+    //
+
     //load resources
     // cc.LoaderScene.preload(g_resources, function () {
     //     cc.director.runScene(new HelloWorldScene());
