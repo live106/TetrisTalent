@@ -1,3 +1,5 @@
+var DT_DEBUG = false;
+
 var DT_MAP_SIZE = cc.size(10, 15);
 var DTBlockSize = 50;
 var DTBlockRotateSpeed = 0.3;
@@ -64,7 +66,7 @@ var blkSquare = {
 	};
 
 var blkT = {
-	res : res.block_red_png,
+	res : res.block_yellow_png,
 	data :
 		[
 			[0, 1],
