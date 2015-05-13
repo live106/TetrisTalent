@@ -41,34 +41,59 @@ var GameLayer = MapLayerDelegate.extend({
         	event: cc.EventListener.KEYBOARD, 
 	        onKeyPressed: function(keyCode, event) {
 	        	// cc.log("Key with keycode " + keyCode + " pressed");
-	        	var target = event.getCurrentTarget();
-	        	switch (keyCode) {
-	        		case KEYCODE_UP:
-	        		{
-	        			target.upButtonTouchUpInside();
-	        			break;
-	        		}
-	        		case KEYCODE_RIGHT:
-	        		{
-	        			target.rightButtonTouchUpInside();
-	        			break;
-	        		}
-	        		case KEYCODE_DOWN:
-	        		{
-	        			target.downButtonTouchUpInside();
-	        			break;
-	        		}
-	        		case KEYCODE_LEFT:
-	        		{
-	        			target.leftButtonTouchUpInside();
-	        			break;
-	        		}
-	        	}
-        	},
-        	onKeyReleased: function(keyCode, event) {
-        		// cc.log("Key with keycode " + keyCode + " released");  
-        		//var target = event.getCurrentTarget();
-        		//target.resetTouchTime();
+                //var target = event.getCurrentTarget();
+                //switch (keyCode) {
+					//case KEYCODE_UP:
+					//{
+					//	target.upButtonTouchDown();
+					//	break;
+					//}
+					//case KEYCODE_RIGHT:
+					//{
+					//	target.rightButtonTouchDown();
+					//	break;
+					//}
+					//case KEYCODE_DOWN:
+					//{
+					//	target.downButtonTouchDown();
+					//	break;
+					//}
+					//case KEYCODE_LEFT:
+					//{
+					//	target.leftButtonTouchDown();
+					//	break;
+					//}
+                //}
+				var target = event.getCurrentTarget();
+				switch (keyCode) {
+					case KEYCODE_UP:
+					{
+						cc.audioEngine.playEffect(sound.rotate_wav, false);
+						target.upButtonTouchUpInside();
+						break;
+					}
+					case KEYCODE_RIGHT:
+					{
+						cc.audioEngine.playEffect(sound.rotate_wav, false);
+						target.rightButtonTouchUpInside();
+						break;
+					}
+					case KEYCODE_DOWN:
+					{
+						cc.audioEngine.playEffect(sound.rotate_wav, false);
+						target.downButtonTouchDown();
+						break;
+					}
+					case KEYCODE_LEFT:
+					{
+						cc.audioEngine.playEffect(sound.rotate_wav, false);
+						target.leftButtonTouchUpInside();
+						break;
+					}
+				}
+			},
+			onKeyReleased: function(keyCode, event) {
+				// cc.log("Key with keycode " + keyCode + " released");
 	        }
         }, this);
 
@@ -119,7 +144,7 @@ var GameLayer = MapLayerDelegate.extend({
 			return;
 		}
 		if (this.curMap.rotateBlock()) {
-			//this.touchUpTime = 0;
+		//this.touchUpTime = 0;
 		//} else {
 		//	this.touchUpTime = -1.0;
 		}
@@ -148,22 +173,26 @@ var GameLayer = MapLayerDelegate.extend({
 			return;
 		}
 
-		this.resetTouchTime();
+		//this.resetTouchTime();
     },
 
 	upButtonTouchDown:function(sender, controlEvent) {
 		//this.touchUpTime = 0;
+		cc.audioEngine.playEffect(sound.rotate_wav, false);
 	},
 
 	rightButtonTouchDown:function(sender, controlEvent) {
+		cc.audioEngine.playEffect(sound.button_pressed_normal_mp3, false);
 		this.touchRightTime = 0;
 	},
 
 	leftButtonTouchDown:function(sender, controlEvent) {
+		cc.audioEngine.playEffect(sound.button_pressed_normal_mp3, false);
 		this.touchLeftTime = 0;
 	},
 
 	downButtonTouchDown:function(sender, controlEvent) {
+		cc.audioEngine.playEffect(sound.button_pressed_normal_mp3, false);
 		this.touchDownTime = 0;
 	},
 
@@ -181,6 +210,7 @@ var GameLayer = MapLayerDelegate.extend({
 				this.resetTouchTime();
 			}
 		} else {
+			cc.audioEngine.playEffect(sound.throwdown_wav, false);
 			this.resetTouchTime();
 			return;
 		}
@@ -196,6 +226,7 @@ var GameLayer = MapLayerDelegate.extend({
 				this.resetTouchTime();
 			}
 		} else {
+			cc.audioEngine.playEffect(sound.throwdown_wav, false);
 			this.resetTouchTime();
 			return;
 		}
@@ -209,8 +240,10 @@ var GameLayer = MapLayerDelegate.extend({
 				this.moveDown(toEnd);
 			}
     	} else {
+			cc.audioEngine.playEffect(sound.landing_mp3, false);
     		this.curMap.updateMapData();
     		if (this.curMap.checkGameOver(DT_DIRECTION_DOWN)) {
+				cc.audioEngine.playEffect(sound.gameover_mp3, false);
 				this.gameOver = true;
 				this.unscheduleUpdate();
 				cc.director.runScene(new cc.TransitionFade(1.2, new GameOverScene()));

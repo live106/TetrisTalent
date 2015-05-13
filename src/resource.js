@@ -14,4 +14,20 @@ var res = {
 var g_resources = [];
 for (var i in res) {
     g_resources.push(res[i]);
-}
+};
+
+var sound = {
+    button_pressed_normal_mp3 : "res/sound/button_pressed_normal.mp3",
+    rotate_mp3 : "res/sound/rotate.mp3",
+    landing_mp3 : "res/sound/landing.mp3",
+    gameover_mp3 : "res/sound/gameover.mp3",
+    brickup_mp3 : "res/sound/brickup.mp3",
+    rotate_wav : "res/sound/rotate.wav",
+    throwdown_wav : "res/sound/throwdown.wav"
+};
+
+var g_sounds = [];
+
+for (var i in sound) {
+    g_sounds.push(sound[i]);
+};
