@@ -8,7 +8,7 @@ var MapLayerDelegate = cc.Layer.extend({
         return true;
     },
 
-    onScoreChange:function() {
+    onScoreChange:function(change) {
         cc.log("MapLayerDelegate.onScoreChange()");
     }
 

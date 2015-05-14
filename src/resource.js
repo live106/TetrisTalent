@@ -21,7 +21,11 @@ var sound = {
     rotate_mp3 : "res/sound/rotate.mp3",
     landing_mp3 : "res/sound/landing.mp3",
     gameover_mp3 : "res/sound/gameover.mp3",
-    brickup_mp3 : "res/sound/brickup.mp3",
+    brickupmp3 : "res/sound/brickup.mp3",
+    brickup_1_mp3 : "res/sound/brickup_1.mp3",
+    brickup_2_mp3 : "res/sound/brickup_2.mp3",
+    brickup_3_mp3 : "res/sound/brickup_3.mp3",
+    brickup_4_mp3 : "res/sound/brickup_4.mp3",
     rotate_wav : "res/sound/rotate.wav",
     throwdown_wav : "res/sound/throwdown.wav"
 };

@@ -274,7 +274,7 @@ var MapLayer = cc.Layer.extend({
         //add score
         this.mapDataService.addScore(clearIndexes.length);
         if (this.delegate) {
-            this.delegate.onScoreChange();
+            this.delegate.onScoreChange(clearIndexes.length);
         }
 
         this.drawTowDimensionArray("doClearLines map data after", this.mapData, 1);
