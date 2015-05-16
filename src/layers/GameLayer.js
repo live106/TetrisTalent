@@ -14,11 +14,25 @@ var GameLayer = MapLayerDelegate.extend({
 
 		var size = cc.winSize;
 
+		var background = new cc.Sprite(res.background_game_png);
+		background.setNormalizedPosition(0.5, 0.5);
+		this.addChild(background);
+
 		this.curMap = new MapLayer(this);
 		this.curMap.attr({
 			x : (size.width - DTBlockSize * DT_MAP_SIZE.width) / 2,
 			y : size.height - DTBlockSize * DT_MAP_SIZE.height
 		});
+
+		var menuItemPause = new cc.MenuItemImage(res.button_pause_png, res.button_pause_png, res.button_pause_png, this.pauseGame, this);
+		var menu = new cc.Menu(menuItemPause);
+		menu.attr({
+			x : size.width - menuItemPause.getContentSize().width - 10,
+			y : size.height - menuItemPause.getContentSize().height - 10,
+			anchorX : 1,
+			anchorY : 1
+		});
+		this.addChild(menu);
 
 		this.addChild(this.curMap);
 
@@ -32,6 +46,18 @@ var GameLayer = MapLayerDelegate.extend({
 		this.scheduleUpdate();
 
 		return true;
+	},
+
+	pauseGame:function() {
+		if (cc.director.isPaused()) {
+			cc.director.resume();
+		} else {
+			cc.director.pause();
+		}
+	},
+
+	resumeGame:function() {
+		cc.director.resume();
 	},
 
 	onEnter:function() {

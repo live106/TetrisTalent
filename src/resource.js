@@ -8,7 +8,10 @@ var res = {
     block_purple_png : "res/block_purple.png",
     block_red_png : "res/block_red.png",
     block_yellow_png : "res/block_yellow.png",
-    block_select_png : "res/block_select.png"
+    block_select_png : "res/block_select.png",
+    background_game_png : "res/background_game.png",
+    button_pause_png : "res/button_pause.png",
+    button_back_png : "res/button_back.png"
 };
 
 var g_resources = [];
