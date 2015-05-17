@@ -138,7 +138,6 @@ var GameLayer = MapLayerDelegate.extend({
 	},
 
 	onScoreChange:function(change) {
-		cc.log("GameLayer.onScoreChange()");
 		cc.audioEngine.playEffect("res/sound/brickup_" + change + ".mp3", false);
 		this.scoreLabel.setString("score\n" + this.curMap.mapDataService.getScore());
 	},
@@ -272,7 +271,7 @@ var GameLayer = MapLayerDelegate.extend({
 				cc.audioEngine.playEffect(sound.gameover_mp3, false);
 				this.gameOver = true;
 				this.unscheduleUpdate();
-				cc.director.runScene(new cc.TransitionFade(1.2, new GameOverScene()));
+				cc.director.runScene(new cc.TransitionFade(1.2, new GameOverScene()));//FIXME change it to pop layer
 				return;
 			} else {
 				this.dropBlock();

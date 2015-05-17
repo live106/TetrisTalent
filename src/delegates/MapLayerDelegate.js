@@ -9,7 +9,6 @@ var MapLayerDelegate = cc.Layer.extend({
     },
 
     onScoreChange:function(change) {
-        cc.log("MapLayerDelegate.onScoreChange()");
     }
 
 });

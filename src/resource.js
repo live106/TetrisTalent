@@ -11,7 +11,8 @@ var res = {
     block_select_png : "res/block_select.png",
     background_game_png : "res/background_game.png",
     button_pause_png : "res/button_pause.png",
-    button_back_png : "res/button_back.png"
+    button_back_png : "res/button_back.png",
+    background_level_png : "res/background_level.png"
 };
 
 var g_resources = [];
