@@ -85,14 +85,6 @@ DT_DIRECTION_DOWN = 1;
 DT_DIRECTION_RIGHT = 2;
 DT_DIRECTION_LEFT = 3;
 
-var gearDecLine = {
-	res : res.block_blue_png
-}
-
-var gearRepair = {
-	res : res.block_green_png
-}
-
 var DT_BLOCKS = [blkL0, blkL1, blkS0, blkS1, blkLine, blkSquare, blkT];
 var DT_TRANSFERS = [DT_TRANSFER_NONE, DT_TRANSFER_90, DT_TRANSFER_180, DT_TRANSFER_270];
 

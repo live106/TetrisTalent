@@ -212,13 +212,13 @@ var MapLayer = cc.Layer.extend({
         var posInMap = this.convertPosInPixelToPosInMap(this.curBlock.getPosition());
 
         this.drawTowDimensionArray("updateMapData blk data", blkData, 0);
-        cc.log("pos in map : [%d, %s] position : [%f, %f]", posInMap.x, posInMap.y, this.curBlock.getPosition().x, this.curBlock.getPosition().y);
+        //cc.log("pos in map : [%d, %s] position : [%f, %f]", posInMap.x, posInMap.y, this.curBlock.getPosition().x, this.curBlock.getPosition().y);
 
         var m, n = 0;
         this.drawTowDimensionArray("updateMapData map data before", this.mapData, 1);
         for (var i = blkData.length - 1; i >= 0; i--) {
             m = parseInt(posInMap.y) - i;
-            cc.log("m : %d", m);
+            //cc.log("m : %d", m);
             if (m < 0 || m >= this.mapData.length) {
                 continue;
             }
@@ -227,7 +227,7 @@ var MapLayer = cc.Layer.extend({
                     continue;
                 }
                 n = parseInt(posInMap.x) + j;
-                cc.log("n : %d", n);
+                //cc.log("n : %d", n);
                 if (n < 0 || n >= this.mapData[m].length) {
                     continue;
                 }
@@ -278,10 +278,42 @@ var MapLayer = cc.Layer.extend({
             this.delegate.onScoreChange(score);
         }
         //gear
-        if (this.delegate) {
-            this.delegate.onGearGot(gearDecLine, 1);
+        var gears = this.checkGear(score);
+        if (this.delegate && gears.length > 0) {
+            this.delegate.onGearGot(gears);
         }
         this.drawTowDimensionArray("doClearLines map data after", this.mapData, 1);
+    },
+
+    checkGear : function (score) {
+        var gears = [];
+        for (var i in TTGearConfig.configure) {
+            var condition = TTGearConfig.configure[i].condition;
+            switch (condition.type) {
+                case TTGearTrigger.trigger_type_clear_lines :
+                {
+                    if (score >= condition.value) {
+                        gears.push(TTGearConfig.configure[i].gear);
+                    }
+                    break;
+                }
+                case TTGearTrigger.trigger_type_score:
+                {
+                    //FIXME 详细设计累计分数获得道具机制
+                    //if (this.mapDataService.getScore() >= condition.value) {
+                    //    gears.push(TTGearConfig.configure[i].gear);
+                    //}
+                    break;
+                }
+                case TTGearTrigger.trigger_type_combo_score:
+                {
+                    // TODO
+                    break;
+                }
+            }
+        }
+
+        return gears;
     },
 
     //0 desc 1 aesc
@@ -307,7 +339,7 @@ var MapLayer = cc.Layer.extend({
                 desc += "\n";
             }
         }
-        cc.log("%s array data : \n%s", description, desc);
+        //cc.log("%s array data : \n%s", description, desc);
     },
 
     redrawMap: function () {

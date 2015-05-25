@@ -142,8 +142,10 @@ var GameLayer = MapLayerDelegate.extend({
 		this.scoreLabel.setString("score\n" + this.curMap.mapDataService.getScore());
 	},
 
-	onGearGot:function(gear, count) {
-		cc.log("got gear " + gear.res + " X " + count);
+	onGearGot:function(gears) {
+		for (var i in gears) {
+			cc.log("got gear " + gears[i].type.name + " X " + gears[i].count);
+		}
 	},
 
 	dropBlock:function() {

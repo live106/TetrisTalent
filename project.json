@@ -13,6 +13,7 @@
     "jsList" : [
         "src/resource.js",
         "src/app.js",
+        "src/config/GearConfig.js",
         "src/delegates/MapLayerDelegate.js",
         "src/layers/MapLayer.js",
         "src/layers/GameLayer.js",

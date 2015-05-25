@@ -8,11 +8,12 @@ var MapLayerDelegate = cc.Layer.extend({
         return true;
     },
 
-    onScoreChange:function(change) {
+    onScoreChange: function (change) {
+        cc.log("score change " + change);
     },
 
-    onGearGot:function(gear, count) {
-
+    onGearGot: function (gears) {
+        cc.log("got gear " + gears.length);
     }
 
 });
