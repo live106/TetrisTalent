@@ -9,6 +9,10 @@ var MapLayerDelegate = cc.Layer.extend({
     },
 
     onScoreChange:function(change) {
+    },
+
+    onGearGot:function(gear, count) {
+
     }
 
 });

@@ -272,11 +272,15 @@ var MapLayer = cc.Layer.extend({
             }
         }
         //add score
-        this.mapDataService.addScore(clearIndexes.length);
+        var score = clearIndexes.length;
+        this.mapDataService.addScore(score);
         if (this.delegate) {
-            this.delegate.onScoreChange(clearIndexes.length);
+            this.delegate.onScoreChange(score);
         }
-
+        //gear
+        if (this.delegate) {
+            this.delegate.onGearGot(gearDecLine, 1);
+        }
         this.drawTowDimensionArray("doClearLines map data after", this.mapData, 1);
     },
 
