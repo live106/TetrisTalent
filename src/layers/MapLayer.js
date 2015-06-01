@@ -265,7 +265,7 @@ var MapLayer = GearNodeDelegate.extend({
     doClearLines: function (clearIndexes) {
         //TODO sort indexes desc
         for (var i = clearIndexes.length - 1; i >= 0; i--) {
-            cc.log("clear line : %d", clearIndexes[i]);
+            //cc.log("clear line : %d", clearIndexes[i]);
             for (var line = clearIndexes[i]; line < this.mapData.length - 1; line++) {
                 this.mapData[line] = this.mapData[line + 1].concat();
             }
@@ -317,7 +317,6 @@ var MapLayer = GearNodeDelegate.extend({
     },
 
     onGearUse: function (gear) {
-        cc.log("use gear in map" + gear.name);
         switch (gear.type) {
             case TTGearType.gear_type_decline:
             {
