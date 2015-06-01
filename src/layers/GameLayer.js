@@ -14,16 +14,20 @@ var GameLayer = MapLayerDelegate.extend({
 
 		var size = cc.winSize;
 
+		//background
 		var background = new cc.Sprite(res.background_game_png);
 		background.setNormalizedPosition(0.5, 0.5);
 		this.addChild(background);
 
+		//map
 		this.curMap = new MapLayer(this);
 		this.curMap.attr({
 			x : (size.width - DTBlockSize * DT_MAP_SIZE.width) / 2,
 			y : size.height - DTBlockSize * DT_MAP_SIZE.height
 		});
+		this.addChild(this.curMap);
 
+		//pause menu
 		var menuItemPause = new cc.MenuItemImage(res.button_pause_png, res.button_pause_png, res.button_pause_png, this.pauseGame, this);
 		var menu = new cc.Menu(menuItemPause);
 		menu.attr({
@@ -34,8 +38,19 @@ var GameLayer = MapLayerDelegate.extend({
 		});
 		this.addChild(menu);
 
-		this.addChild(this.curMap);
+		//gears
+		var gearNode = new GearNode();
+		gearNode.setDelegate(this.curMap);
+		cc.log(gearNode.getContentSize().width);
+		gearNode.attr({
+			x : size.width - 10,
+			y : menu.y - 100,
+			anchorX : 1,
+			anchorY : 1
+		});
+		this.addChild(gearNode);
 
+		//controller
 		var controller = new ControllerNode(this);
 		controller.attr({
 			x : size.width / 2,

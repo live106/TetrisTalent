@@ -1,13 +1,13 @@
 /**
  * start pos [0, 0] direction right up
  **/
-var MapLayer = cc.Layer.extend({
+var MapLayer = GearNodeDelegate.extend({
     mapData: null,
     //mapSprites: null,
     curBlock: null,
     mapNode: null,
     mapDataService: null,
-    delegate:null,
+    delegate: null,
     ctor: function (pDelegate) {
         this._super();
 
@@ -45,7 +45,7 @@ var MapLayer = cc.Layer.extend({
         return true;
     },
 
-    dropBlock:function() {
+    dropBlock: function () {
         var blockInfo = this.mapDataService.generateBlock();
 
         if (!this.curBlock) {
@@ -56,10 +56,10 @@ var MapLayer = cc.Layer.extend({
         }
 
         this.curBlock.attr({
-            x : DTBlockSize * (DT_MAP_SIZE.width / 2 - Math.round(this.curBlock.curData[0].length / 2)),
-            y : DTBlockSize * (DT_MAP_SIZE.height - this.getBottomY(this.curBlock.curData)),
-            anchorX : 0,
-            anchorY : 0
+            x: DTBlockSize * (DT_MAP_SIZE.width / 2 - Math.round(this.curBlock.curData[0].length / 2)),
+            y: DTBlockSize * (DT_MAP_SIZE.height - this.getBottomY(this.curBlock.curData)),
+            anchorX: 0,
+            anchorY: 0
         });
     },
 
@@ -73,7 +73,7 @@ var MapLayer = cc.Layer.extend({
         return result;
     },
 
-    rotateBlock:function() {
+    rotateBlock: function () {
         var blkData = this.curBlock.getRotateData();
         var posInMap = this.convertPosInPixelToPosInMap(this.curBlock.getPosition());
         if (this.checkCollision(blkData, DT_DIRECTION_ALL, posInMap)) {
@@ -84,7 +84,7 @@ var MapLayer = cc.Layer.extend({
         return true;
     },
 
-    checkStop:function(direction) {
+    checkStop: function (direction) {
         var posInMap = this.convertPosInPixelToPosInMap(this.curBlock.getPosition());
         switch (direction) {
             case DT_DIRECTION_DOWN:
@@ -154,7 +154,7 @@ var MapLayer = cc.Layer.extend({
         return false;
     },
 
-    getBottomY:function(blkData) {
+    getBottomY: function (blkData) {
         var blkBottomPosY = 0;
         var stop = false;
         for (var i = blkData.length - 1; i >= 0; i--) {
@@ -168,12 +168,12 @@ var MapLayer = cc.Layer.extend({
                 // cc.log("stop %d", i);
                 break;
             }
-            blkBottomPosY ++;
+            blkBottomPosY++;
         }
         return blkBottomPosY;
     },
 
-    getLeftX:function(blkData) {
+    getLeftX: function (blkData) {
         var blkLeftPosX = blkData[0].length - 1;
         for (var i = blkData.length - 1; i >= 0; i--) {
             for (var j = 0; j < blkData[i].length; j++) {
@@ -188,7 +188,7 @@ var MapLayer = cc.Layer.extend({
         return blkLeftPosX;
     },
 
-    getRightX:function(blkData) {
+    getRightX: function (blkData) {
         var blkRightPosX = 0;
         for (var i = blkData.length - 1; i >= 0; i--) {
             for (var j = 0; j < blkData[i].length; j++) {
@@ -259,7 +259,6 @@ var MapLayer = cc.Layer.extend({
         }
         if (clearIndexes.length > 0) {
             this.doClearLines(clearIndexes);
-            this.redrawMap();
         }
     },
 
@@ -282,10 +281,11 @@ var MapLayer = cc.Layer.extend({
         if (this.delegate && gears.length > 0) {
             this.delegate.onGearGot(gears);
         }
+        this.redrawMap();
         this.drawTowDimensionArray("doClearLines map data after", this.mapData, 1);
     },
 
-    checkGear : function (score) {
+    checkGear: function (score) {
         var gears = [];
         for (var i in TTGearConfig.configure) {
             var condition = TTGearConfig.configure[i].condition;
@@ -314,6 +314,25 @@ var MapLayer = cc.Layer.extend({
         }
 
         return gears;
+    },
+
+    onGearUse: function (gear) {
+        cc.log("use gear in map" + gear.name);
+        switch (gear.type) {
+            case TTGearType.gear_type_decline:
+            {
+                this.doClearLines([0]);
+                break;
+            }
+            case TTGearType.gear_type_repair:
+            {
+                break;
+            }
+            case TTGearType.gear_type_bomb:
+            {
+                break;
+            }
+        }
     },
 
     //0 desc 1 aesc

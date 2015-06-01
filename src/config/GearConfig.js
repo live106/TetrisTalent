@@ -2,20 +2,29 @@
  * Created by None on 5/25/15.
  */
 
+var TTGearType =
+{
+    gear_type_decline: 1,
+    gear_type_repair: 2,
+    gear_type_bomb:3
+};
 var TTGears = {
     gearDecLine: {
+        type: TTGearType.gear_type_decline,
         name: "减行",
-        res: res.block_blue_png
+        res: res.gear_minus_png
     },
 
     gearRepair: {
+        type: TTGearType.gear_type_repair,
         name: "胶带",
-        res: res.block_green_png
+        res: res.gear_tape_png
     },
 
     gearBomb: {
+        type: TTGearType.gear_type_bomb,
         name: "炸弹",
-        res: res.block_blue_png
+        res: res.gear_bomb_png
     }
 };
 

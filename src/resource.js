@@ -12,7 +12,13 @@ var res = {
     background_game_png : "res/background_game.png",
     button_pause_png : "res/button_pause.png",
     button_back_png : "res/button_back.png",
-    background_level_png : "res/background_level.png"
+    background_level_png : "res/background_level.png",
+    gear_bomb_png : "res/gear/bomb.png",
+    gear_clock_png : "res/gear/clock.png",
+    gear_hammer_png : "res/gear/hammer.png",
+    gear_minus_png : "res/gear/minus.png",
+    gear_plus_png : "res/gear/plus.png",
+    gear_tape_png : "res/gear/tape.png"
 };
 
 var g_resources = [];
