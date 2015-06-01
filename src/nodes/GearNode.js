@@ -56,7 +56,6 @@ var GearNode = cc.Node.extend({
         switch (type) {
             case ccui.ListView.EVENT_SELECTED_ITEM:
                 var listViewEx = sender;
-                cc.log("gear %d selected", listViewEx.getCurSelectedIndex());
                 if (this.delegate) {
                     var index = 0;
                     for(var key in TTGears) {
