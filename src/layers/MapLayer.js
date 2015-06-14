@@ -325,13 +325,44 @@ var MapLayer = GearNodeDelegate.extend({
             }
             case TTGearType.gear_type_repair:
             {
+                this.doRepairBlock(1);
                 break;
             }
             case TTGearType.gear_type_bomb:
             {
+                this.doExplosion(5);
+                break;
+            }
+            case TTGearType.gear_type_hammer:
+            {
                 break;
             }
         }
+    },
+
+    doRepairBlock: function(num) {
+        var cnt = 0;
+        for(var i = 0; i < DT_MAP_SIZE.height; i++) {
+            for (var j = 0;j < DT_MAP_SIZE.width; j++) {
+                if (this.mapData[i][j] <= 0) {
+                    this.mapData[i][j] = 1;//FIXME 后期可能需要分不同颜色块
+                    cnt ++;
+                    if (cnt >= num) {
+                        break;
+                    }
+                }
+            }
+            if (cnt >= num) {
+                break;
+            }
+        }
+        this.checkEliminate();
+        this.redrawMap();
+    },
+
+    //explosion block x num random
+    doExplosion: function(num) {
+
     },
 
     //0 desc 1 aesc

@@ -6,7 +6,9 @@ var TTGearType =
 {
     gear_type_decline: 1,
     gear_type_repair: 2,
-    gear_type_bomb:3
+    gear_type_bomb:3,
+    gear_type_hammer:4,
+    gear_type_tape:5
 };
 var TTGears = {
     gearDecLine: {
@@ -25,7 +27,14 @@ var TTGears = {
         type: TTGearType.gear_type_bomb,
         name: "炸弹",
         res: res.gear_bomb_png
+    },
+
+    gearHammer: {
+        type: TTGearType.gear_type_hammer,
+        name: "锤子",
+        res: res.gear_hammer_png
     }
+
 };
 
 var TTGearTrigger = {
