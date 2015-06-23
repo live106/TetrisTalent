@@ -1,4 +1,6 @@
 var res = {
+    explosion_plist : 'res/effect/explosion.plist',
+    explosion_png : 'res/effect/explosion.png',
     HelloWorld_png : "res/HelloWorld.png",
     button_normal_png : "res/button_normal.png",
     button_selected_png : "res/button_selected.png",

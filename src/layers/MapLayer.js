@@ -1,6 +1,7 @@
 /**
  * start pos [0, 0] direction right up
  **/
+var g_sharedMapLayer;
 var MapLayer = GearNodeDelegate.extend({
     mapData: null,
     //mapSprites: null,
@@ -8,9 +9,10 @@ var MapLayer = GearNodeDelegate.extend({
     mapNode: null,
     mapDataService: null,
     delegate: null,
+    _explosions: null,
     ctor: function (pDelegate) {
         this._super();
-
+        g_sharedMapLayer = this;
         this.delegate = pDelegate;
         this.mapDataService = new MapDataService();
 
@@ -41,6 +43,15 @@ var MapLayer = GearNodeDelegate.extend({
             posX = 0;
             posY += DTBlockSize;
         }
+
+        // explosion batch node
+        cc.spriteFrameCache.addSpriteFrames(res.explosion_plist);
+        var explosionTexture = cc.textureCache.addImage(res.explosion_png);
+        this._explosions = new cc.SpriteBatchNode(explosionTexture);
+        this._explosions.setBlendFunc(cc.SRC_ALPHA, cc.ONE);
+        this.addChild(this._explosions);
+        Explosion.sharedExplosion();
+        Explosion.preSet();
 
         return true;
     },
@@ -362,7 +373,21 @@ var MapLayer = GearNodeDelegate.extend({
 
     //explosion block x num random
     doExplosion: function(num) {
+        var bomb = Explosion.getOrCreateExplosion();
+        bomb.attr({
+            x : 100,
+            y : 100
+        });
+        //FIXME explosion from block on the top
+        var bombX = 1;
+        var bombY = 4;
+        this.mapData[bombX][bombY] = 0;
+        this.mapData[bombX + 1][bombY] = 0;
+        this.mapData[bombX - 1][bombY] = 0;
+        this.mapData[bombX][bombY - 1] = 0;
+        this.mapData[bombX][bombY + 1] = 0;
 
+        this.redrawMap();
     },
 
     //0 desc 1 aesc
@@ -427,3 +452,7 @@ var MapLayer = GearNodeDelegate.extend({
         }
     }
 });
+
+MapLayer.prototype.addExplosions = function (explosion) {
+    this._explosions.addChild(explosion);
+};

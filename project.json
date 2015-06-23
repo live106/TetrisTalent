@@ -16,6 +16,7 @@
         "src/config/GearConfig.js",
         "src/delegates/GearNodeDelegate.js",
         "src/nodes/GearNode.js",
+        "src/nodes/effect/Explosion.js",
         "src/delegates/MapLayerDelegate.js",
         "src/layers/MapLayer.js",
         "src/layers/GameLayer.js",

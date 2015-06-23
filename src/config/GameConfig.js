@@ -102,6 +102,11 @@ function random(min, max)
 	var rand = Math.random();   
 	return (min + Math.round(rand * range));   
 }
+var MW = MW || {};
+//container
+MW.CONTAINER = {
+	EXPLOSIONS: []
+}
 //长按按钮多少s后按长按键操作计算
 var KEY_LONG_PRESS_DELAY = 0.5;
 
