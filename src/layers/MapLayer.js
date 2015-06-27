@@ -275,22 +275,35 @@ var MapLayer = GearNodeDelegate.extend({
 
     doClearLines: function (clearIndexes) {
         //TODO sort indexes desc
+        var score = clearIndexes.length;
         for (var i = clearIndexes.length - 1; i >= 0; i--) {
             //cc.log("clear line : %d", clearIndexes[i]);
+            var emptyLine = true;
+            for (var cell = 0; cell < this.mapData[i].length; cell++) {
+                if (this.mapData[i][cell] > 0) {
+                    emptyLine = false;
+                    break;
+                }
+            }
+            if (emptyLine) {
+                cc.log("emptyLine %s", emptyLine);
+                score--;
+            }
             for (var line = clearIndexes[i]; line < this.mapData.length - 1; line++) {
                 this.mapData[line] = this.mapData[line + 1].concat();
             }
         }
-        //add score
-        var score = clearIndexes.length;
-        this.mapDataService.addScore(score);
-        if (this.delegate) {
-            this.delegate.onScoreChange(score);
-        }
-        //gear
-        var gears = this.checkGear(score);
-        if (this.delegate && gears.length > 0) {
-            this.delegate.onGearGot(gears);
+        if (score > 0) {
+            //add score
+            this.mapDataService.addScore(score);
+            if (this.delegate) {
+                this.delegate.onScoreChange(score);
+            }
+            //gear
+            var gears = this.checkGear(score);
+            if (this.delegate && gears.length > 0) {
+                this.delegate.onGearGot(gears);
+            }
         }
         this.redrawMap();
         this.drawTowDimensionArray("doClearLines map data after", this.mapData, 1);
