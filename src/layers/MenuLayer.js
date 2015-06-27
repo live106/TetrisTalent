@@ -54,6 +54,11 @@ var MenuLayer = cc.Layer.extend({
 		});
 		this.addChild(menu);
 
+		//test ccs node
+		var fireNode = ccs.load(res.ui_particlefirenode_json);
+		fireNode.node.setNormalizedPosition(cc.p(0.5, 0.5));
+		this.addChild(fireNode.node);
+
 		return true;
 	},
 

@@ -1,7 +1,11 @@
 var res = {
+    ui_helloworld_png : "res/ui/HelloWorld.png",
+    ui_mainscene_json : "res/ui/MainScene.json",
+    ui_particleifire_plist : "res/ui/ParticleFire.plist",
+    ui_particlefirenode_json : "res/ui/ParticleFireNode.json",
     explosion_plist : 'res/effect/explosion.plist',
     explosion_png : 'res/effect/explosion.png',
-    HelloWorld_png : "res/HelloWorld.png",
+    //HelloWorld_png : "res/HelloWorld.png",
     button_normal_png : "res/button_normal.png",
     button_selected_png : "res/button_selected.png",
     blank_png : "res/blank.png",
