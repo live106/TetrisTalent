@@ -218,6 +218,10 @@ var MapLayer = GearNodeDelegate.extend({
         return cc.p(Math.round(pos.x / DTBlockSize), Math.round(pos.y / DTBlockSize));
     },
 
+    convertPosInMapToPixcelInMap: function (pos) {
+        return cc.p(pos.x * DTBlockSize + DTBlockSize / 2, pos.y * DTBlockSize + DTBlockSize / 2);
+    },
+
     updateMapData: function () {
         var blkData = this.curBlock.getData();
         var posInMap = this.convertPosInPixelToPosInMap(this.curBlock.getPosition());
@@ -386,19 +390,49 @@ var MapLayer = GearNodeDelegate.extend({
 
     //explosion block x num random
     doExplosion: function(num) {
-        var bomb = Explosion.getOrCreateExplosion();
-        bomb.attr({
-            x : 100,
-            y : 100
-        });
+        //get the top line and cell
+        var topLine = 0;
+        var topLineCell = 0;
+        var hit = false;
+        for (var i = this.mapData.length - 1; i > 0; i--) {
+            for (var j = 0; j < this.mapData[i].length; j++) {
+                if (this.mapData[i][j] > 0) {
+                    topLine = i;
+                    topLineCell = j;
+                    hit = true;
+                    break;
+                }
+            }
+            if (hit) {
+                break;
+            }
+        }
+        var bombCenterLine = 1;
+        var bombCenterCell = 1;
+        if (topLine > 0) {
+            bombCenterLine = topLine - 1;
+            bombCenterCell = topLineCell > DT_MAP_SIZE.width / 2 ? topLineCell - 1 : topLineCell + 1;
+            if (bombCenterLine <= 0) {
+                bombCenterLine = 1;
+            }
+            if (bombCenterCell <= 0) {
+                bombCenterCell = 1;
+            }
+        }
+
         //FIXME explosion from block on the top
-        var bombX = 1;
-        var bombY = 4;
-        this.mapData[bombX][bombY] = 0;
-        this.mapData[bombX + 1][bombY] = 0;
-        this.mapData[bombX - 1][bombY] = 0;
-        this.mapData[bombX][bombY - 1] = 0;
-        this.mapData[bombX][bombY + 1] = 0;
+        this.mapData[bombCenterLine][bombCenterCell] = 0;
+        this.mapData[bombCenterLine + 1][bombCenterCell] = 0;
+        this.mapData[bombCenterLine + 1][bombCenterCell + 1] = 0;
+        this.mapData[bombCenterLine + 1][bombCenterCell - 1] = 0;
+        this.mapData[bombCenterLine - 1][bombCenterCell] = 0;
+        this.mapData[bombCenterLine - 1][bombCenterCell - 1] = 0;
+        this.mapData[bombCenterLine - 1][bombCenterCell + 1] = 0;
+        this.mapData[bombCenterLine][bombCenterCell - 1] = 0;
+        this.mapData[bombCenterLine][bombCenterCell + 1] = 0;
+
+        var bomb = Explosion.getOrCreateExplosion();
+        bomb.setPosition(this.convertPosInMapToPixcelInMap(cc.p(bombCenterCell, bombCenterLine)));
 
         this.redrawMap();
     },
