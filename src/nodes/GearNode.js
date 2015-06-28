@@ -52,7 +52,7 @@ var GearNode = cc.Node.extend({
                 x : layout.width,
                 y : 0
             });
-            numTtf.setTag(100);//FIXME
+            numTtf.setTag(GearNode.tagNumTtf);//FIXME
             layout.addChild(numTtf);
 
             layout.setUserData(TTGears[i].type);
@@ -73,7 +73,16 @@ var GearNode = cc.Node.extend({
                     var index = 0;
                     for(var key in TTGears) {
                         if (index == listViewEx.getCurSelectedIndex()) {
-                            this.delegate.onGearUse(TTGears[key]);
+                            var result = this.delegate.onGearUse(TTGears[key]);
+                            if (result) {
+                                var item = listViewEx.getItem(index);
+                                var scale1 = new cc.scaleTo(.2, 1.1);
+                                var scale2 = new cc.scaleTo(.2, 1.0);
+                                var actions = [scale1, scale2];
+                                item.runAction(cc.sequence(actions));
+                                var numTtf = item.getChildByTag(GearNode.tagNumTtf);
+                                numTtf.setString(Number(numTtf.getString()) - 1);
+                            }
                             break;
                         }
                         index += 1;
@@ -98,7 +107,7 @@ var GearNode = cc.Node.extend({
                     var scale2 = new cc.scaleTo(.2, 1.0);
                     var actions = [scale1, scale2];
                     items[j].runAction(cc.sequence(actions));
-                    var numTtf = items[j].getChildByTag(100);
+                    var numTtf = items[j].getChildByTag(GearNode.tagNumTtf);
                     numTtf.setString(Number(numTtf.getString()) + gears[i].count);
                     break;
                 }
@@ -106,3 +115,5 @@ var GearNode = cc.Node.extend({
         }
     }
 });
+
+GearNode.tagNumTtf = 100;

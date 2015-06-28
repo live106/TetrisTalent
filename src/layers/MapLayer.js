@@ -281,7 +281,6 @@ var MapLayer = GearNodeDelegate.extend({
         //TODO sort indexes desc
         var score = clearIndexes.length;
         for (var i = clearIndexes.length - 1; i >= 0; i--) {
-            //cc.log("clear line : %d", clearIndexes[i]);
             var emptyLine = true;
             for (var cell = 0; cell < this.mapData[i].length; cell++) {
                 if (this.mapData[i][cell] > 0) {
@@ -290,7 +289,6 @@ var MapLayer = GearNodeDelegate.extend({
                 }
             }
             if (emptyLine) {
-                cc.log("emptyLine %s", emptyLine);
                 score--;
             }
             for (var line = clearIndexes[i]; line < this.mapData.length - 1; line++) {
@@ -306,6 +304,7 @@ var MapLayer = GearNodeDelegate.extend({
             //gear
             var gears = this.checkGear(score);
             if (this.delegate && gears.length > 0) {
+                this.mapDataService.addGears(gears);
                 this.delegate.onGearGot(gears);
             }
         }
@@ -345,6 +344,9 @@ var MapLayer = GearNodeDelegate.extend({
     },
 
     onGearUse: function (gear) {
+        if (!this.mapDataService.hasGear(gear)) {
+            return false;
+        }
         switch (gear.type) {
             case TTGearType.gear_type_decline:
             {
@@ -366,6 +368,8 @@ var MapLayer = GearNodeDelegate.extend({
                 break;
             }
         }
+        this.mapDataService.subGear(gear);
+        return true;
     },
 
     doRepairBlock: function(num) {
