@@ -47,10 +47,14 @@ var TTGearConfig = {
     configure: [
         {
             condition: {type: TTGearTrigger.trigger_type_clear_lines, value: 2},
-            gear: {type: TTGears.gearDecLine, count: 2}
+            gear: {type: TTGears.gearDecLine, count: 1}
         },
         {
-            condition: {type: TTGearTrigger.trigger_type_score, value: 10},
+            condition: {type: TTGearTrigger.trigger_type_clear_lines, value: 3},
+            gear: {type: TTGears.gearBomb, count: 1}
+        },
+        {
+            condition: {type: TTGearTrigger.trigger_type_score, value: 20},
             gear: {type: TTGears.gearRepair, count: 1}
         }
     ]

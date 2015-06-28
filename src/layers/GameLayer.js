@@ -9,6 +9,7 @@ var GameLayer = MapLayerDelegate.extend({
 	gameOver:false,
 	nextBlock:null,
 	scoreLabel:null,
+	_gearNode:null,
 	ctor:function() {
 		this._super();
 
@@ -39,16 +40,16 @@ var GameLayer = MapLayerDelegate.extend({
 		this.addChild(menu);
 
 		//gears
-		var gearNode = new GearNode();
-		gearNode.setDelegate(this.curMap);
-		cc.log(gearNode.getContentSize().width);
-		gearNode.attr({
+		this._gearNode = new GearNode();
+		this._gearNode.setDelegate(this.curMap);
+		cc.log(this._gearNode.getContentSize().width);
+		this._gearNode.attr({
 			x : size.width - 10,
 			y : menu.y - 100,
 			anchorX : 1,
 			anchorY : 1
 		});
-		this.addChild(gearNode);
+		this.addChild(this._gearNode);
 
 		//controller
 		var controller = new ControllerNode(this);
@@ -158,9 +159,7 @@ var GameLayer = MapLayerDelegate.extend({
 	},
 
 	onGearGot:function(gears) {
-		for (var i in gears) {
-			cc.log("got gear " + gears[i].type.name + " X " + gears[i].count);
-		}
+		this._gearNode.addGears(gears);
 	},
 
 	dropBlock:function() {
