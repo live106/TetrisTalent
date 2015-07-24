@@ -53,13 +53,74 @@ var MenuLayer = cc.Layer.extend({
 			anchorY : 1
 		});
 		this.addChild(menu);
+        //
 
 		//test ccs node
 		var fireNode = ccs.load(res.ui_particlefirenode_json);
 		fireNode.node.setNormalizedPosition(cc.p(0.5, 0.5));
 		this.addChild(fireNode.node);
+		//
+
+        //test pomelo chat
+		var connItem = new cc.MenuItemLabel(new cc.LabelTTF("测试连接", "Arial", 40), this.testPomeloConnect, this);
+		var chatItem = new cc.MenuItemLabel(new cc.LabelTTF("测试聊天", "Arial", 40), this.testChat, this);
+		var testMenu = new cc.Menu(connItem, chatItem);
+		testMenu.alignItemsHorizontallyWithPadding(50);
+		testMenu.attr({
+			x : 200,
+			y : 100
+		});
+		this.addChild(testMenu);
+		/*
+		var posX = 100;
+		var posY = 50;
+		var connBtn = new ccui.Button();
+		connBtn.setTouchEnabled(true);
+		connBtn.addTouchEventListener(this.testPomeloConnect, this);
+		connBtn.setTitleText("connect");
+		//var title = connBtn.getTitleRenderer();
+		//title.setFontSize(40);
+		//title.enableShadow(cc.color.RED, cc.size(2, -2));
+		//title.enableStroke(cc.color.GREEN, 2);
+		//connBtn.setTitleFontSize(new cc.Size(100, 100));
+		connBtn.attr({
+			x : posX,
+			y : posY
+		});
+		this.addChild(connBtn);
+		posX += 150;
+        //
+		var testBtn = new ccui.Button();
+		testBtn.setTouchEnabled(true);
+		testBtn.addTouchEventListener(this.testChat, this);
+		testBtn.setTitleText("chat");
+		//title = testBtn.getTitleRenderer();
+		//title.setFontSize(40);
+		//title.enableShadow(cc.color.RED, cc.size(2, -2));
+		//title.enableStroke(cc.color.GREEN, 2);
+		//testBtn.setTitleFontSize(new cc.Size(100, 100));
+		testBtn.attr({
+			x : posX,
+			y : posY
+		});
+		this.addChild(testBtn);
+		*/
+		//
+
+
+		cc.error("enter menu layer.");
 
 		return true;
+	},
+
+	testPomeloConnect:function(sender, type) {
+		new pomeloHandler().pomeloConnect();
+	},
+
+	testChat:function(sender, type) {
+		cc.log("test chat!");
+		//require("../test/pomelo/chatHandler.js");
+		new pomeloHandler().chat();
 	},
 
 	levelTouch:function(sender, type) {
