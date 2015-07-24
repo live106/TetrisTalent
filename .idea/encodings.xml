@@ -5,13 +5,8 @@
     <file url="file://$PROJECT_DIR$/res/effect/explosion.plist" charset="GBK" />
     <file url="file://$PROJECT_DIR$/res/effect/explosion.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/res/ui/HelloWorld.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/res/ui/HelloWorld.png" charset="GBK" />
     <file url="file://$PROJECT_DIR$/res/ui/MainScene.json" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/res/ui/MainScene.json" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/res/ui/ParticleFile.plist" charset="GBK" />
     <file url="file://$PROJECT_DIR$/res/ui/ParticleFire.plist" charset="GBK" />
     <file url="file://$PROJECT_DIR$/res/ui/ParticleFireNode.json" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/res/ui/ParticleFireNode.json" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/nodes/effect/Explosion.js" charset="GBK" />
   </component>
 </project>
